@@ -20,14 +20,7 @@ A complete GitHub Pages website featuring a **fully client-side neural network c
 
 ### Option 1: GitHub Pages (Recommended)
 
-1. **Fork this repository** to your GitHub account
-2. **Enable GitHub Pages**:
-   - Go to your repository Settings
-   - Navigate to "Pages" section
-   - Select "Deploy from a branch"
-   - Choose `main` branch and `/root` folder
-   - Click "Save"
-3. **Access your site** at `https://<your-username>.github.io/chat-neural-network/`
+Just go to https://function-f-of-x.github.io/chat-neural-network and enjoy!
 
 ### Option 2: Local Development
 
