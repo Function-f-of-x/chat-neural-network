@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuralChat | Browser-Powered AI</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/mobile.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧠</text></svg>">
+</head>
+<body>
+    <div class="app-container">
+        <header class="chat-header">
+            <div class="header-content">
+                <div class="logo-container">
+                    <div class="neural-logo">🧠</div>
+                    <h1>NeuralChat</h1>
+                </div>
+                <div class="header-actions">
+                    <button id="theme-toggle" class="icon-button" aria-label="Toggle dark mode">
+                        <svg class="icon sun-icon" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="5"></circle>
+                            <line x1="12" y1="1" x2="12" y2="3"></line>
+                            <line x1="12" y1="21" x2="12" y2="23"></line>
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                            <line x1="1" y1="12" x2="3" y2="12"></line>
+                            <line x1="21" y1="12" x2="23" y2="12"></line>
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                        </svg>
+                        <svg class="icon moon-icon" viewBox="0 0 24 24">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                        </svg>
+                    </button>
+                    <button id="clear-chat" class="icon-button" aria-label="Clear chat history">
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"></path>
+                        </svg>
+                    </button>
+                    <button id="export-chat" class="icon-button" aria-label="Export chat history">
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <path d="M19 12v7H5v-7H3v7c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zm-8 .67l2.59-2.58L15 11.5l-5 5-5-5 1.41-1.41L9 12.67V3h2v9.67z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="network-status">
+                <div class="status-indicator"></div>
+                <span>Neural Network Active • Running locally in your browser</span>
+            </div>
+        </header>
+
+        <main class="chat-container">
+            <div id="chat-messages" class="messages-container">
+                <div class="message bot-message">
+                    <div class="message-content">
+                        <p>Hello! I'm NeuralChat, a neural network running entirely in your browser. 🧠</p>
+                        <p>Ask me anything - I process all conversations locally with no external connections.</p>
+                    </div>
+                    <div class="message-time">Just now</div>
+                </div>
+                <div class="message bot-message">
+                    <div class="message-content">
+                        <p><strong>💡 Tip:</strong> I work best with clear, concise questions. Try "Explain quantum computing simply" or "What's the meaning of life?"</p>
+                    </div>
+                    <div class="message-time">Just now</div>
+                </div>
+            </div>
+            <div id="typing-indicator" class="typing-indicator">
+                <div class="typing-bubble">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <div class="typing-label">Neural network processing...</div>
+            </div>
+        </main>
+
+        <footer class="chat-footer">
+            <div class="input-container">
+                <button id="voice-toggle" class="input-button" aria-label="Voice input">
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <path d="M12 14c1.66 0 2.99-1.34 2.99-3L15 5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"></path>
+                    </svg>
+                </button>
+                <textarea id="user-input" placeholder="Type your message... (Press Enter to send)" rows="1"></textarea>
+                <button id="send-button" class="send-button" aria-label="Send message">
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="footer-note">
+                <p>All processing happens locally in your browser • No data leaves your device • <a href="#" id="how-it-works">How this works</a></p>
+            </div>
+        </footer>
+
+        <div id="how-it-works-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>How NeuralChat Works</h2>
+                    <button id="close-modal" class="close-button">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-section">
+                        <h3>🧠 Pure Client-Side AI</h3>
+                        <p>This chatbot runs a neural network implementation written entirely in JavaScript that executes in your browser. No external APIs, no cloud services, no data collection - everything happens locally on your device.</p>
+                    </div>
+                    <div class="modal-section">
+                        <h3>⚙️ Technical Architecture</h3>
+                        <ul>
+                            <li><strong>Neural Network:</strong> Feedforward network with backpropagation</li>
+                            <li><strong>Layers:</strong> Input (128 units), Hidden (64 units), Output (128 units)</li>
+                            <li><strong>Activation:</strong> ReLU for hidden layers, Softmax for output</li>
+                            <li><strong>NLP Pipeline:</strong> Tokenization → Embedding → Inference → Decoding</li>
+                            <li><strong>Vocabulary:</strong> 500+ words with context-aware embeddings</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h3>🔒 Privacy Guarantee</h3>
+                        <p>Your conversations never leave your browser. We don't use cookies, trackers, or external services. Chat history is stored only in your browser's localStorage and can be cleared anytime.</p>
+                    </div>
+                    <div class="modal-section">
+                        <h3>⚡ Performance Notes</h3>
+                        <p>Initial load trains the network on sample data (takes 2-3 seconds). Subsequent interactions are near-instant. For best performance, use Chrome or Edge with a modern device.</p>
+                    </div>
+                    <div class="modal-section">
+                        <h3>🌱 Open Source</h3>
+                        <p>This project is open source! View the code, contribute improvements, or deploy your own instance:</p>
+                        <a href="https://github.com/yourusername/chat-neural-network" target="_blank" class="github-link">
+                            <svg class="icon" viewBox="0 0 24 24">
+                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path>
+                            </svg>
+                            GitHub Repository
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="toast" class="toast"></div>
+    </div>
+
+    <!-- Neural Network Implementation -->
+    <script src="js/neural-network.js"></script>
+    <!-- Training Data -->
+    <script src="js/training-data.js"></script>
+    <!-- Utilities -->
+    <script src="js/utils.js"></script>
+    <!-- Chat Engine -->
+    <script src="js/chat-engine.js"></script>
+</body>
+  </html>
