@@ -1,8 +1,6 @@
 # 🌐 NeuralChat: Browser-Powered AI Chat Interface
-
+## https://function-f-of-x.github.io/chat-neural-network
 A complete GitHub Pages website featuring a **fully client-side neural network chatbot** that runs entirely in your browser with zero external dependencies or API calls.
-
-![NeuralChat Demo](https://via.placeholder.com/800x400/4361ee/ffffff?text=NeuralChat+Demo) <!-- Replace with actual screenshot -->
 
 ## ✨ Features
 
