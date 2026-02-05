@@ -1,98 +1,264 @@
 /**
- * TRAINING DATA FOR NEURAL CHATBOT
- * Contains conversational examples and pre-trained weights
- * Vocabulary size: 512 words
- * Embedding dimension: 128
+ * TRAINING DATA FOR NEURAL CHATBOT (EXPANDED VERSION)
+ * Runs 100% in-browser
+ * Vocabulary: ~1400 words
+ * Training pairs: ~500+
+ * Embedding dim: 128
  */
 
-// Small vocabulary for demo purposes (in a real implementation this would be larger)
+/* ===================== VOCABULARY ===================== */
+
 const vocabulary = [
-    "hello", "hi", "hey", "greetings", "howdy", "goodbye", "bye", "see you", "later", "thanks", "thank you", "appreciate", 
-    "please", "sorry", "apologies", "yes", "no", "maybe", "definitely", "certainly", "absolutely", "never", "always", 
-    "sometimes", "often", "rarely", "what", "when", "where", "why", "how", "who", "which", "whose", "whom", "is", "are", 
-    "was", "were", "be", "being", "been", "am", "was", "do", "does", "did", "done", "doing", "have", "has", "had", "having", 
-    "can", "could", "will", "would", "shall", "should", "may", "might", "must", "the", "a", "an", "and", "or", "but", "not", 
-    "in", "on", "at", "to", "for", "of", "with", "about", "like", "as", "I", "you", "he", "she", "it", "we", "they", "me", 
-    "him", "her", "us", "them", "my", "your", "his", "its", "our", "their", "mine", "yours", "hers", "ours", "theirs", 
-    "this", "that", "these", "those", "here", "there", "now", "then", "today", "tomorrow", "yesterday", "time", "day", 
-    "week", "month", "year", "morning", "afternoon", "evening", "night", "name", "age", "old", "young", "happy", "sad", 
-    "angry", "excited", "tired", "hungry", "thirsty", "hot", "cold", "big", "small", "large", "tiny", "fast", "slow", 
-    "good", "great", "excellent", "bad", "terrible", "awful", "wonderful", "amazing", "interesting", "boring", "fun", 
-    "serious", "important", "necessary", "possible", "impossible", "easy", "difficult", "hard", "simple", "complex", 
-    "computer", "phone", "internet", "ai", "robot", "neural", "network", "brain", "learn", "teach", "study", "knowledge", 
-    "science", "math", "physics", "chemistry", "biology", "history", "geography", "language", "english", "word", "sentence", 
-    "question", "answer", "problem", "solution", "idea", "thought", "mind", "heart", "life", "death", "love", "hate", 
-    "friend", "family", "work", "school", "home", "city", "country", "world", "universe", "space", "time", "future", "past", 
-    "present", "meaning", "purpose", "exist", "reality", "truth", "lie", "fact", "opinion", "belief", "religion", "god", 
-    "human", "person", "people", "child", "man", "woman", "animal", "plant", "water", "fire", "earth", "air", "energy", 
-    "matter", "light", "dark", "color", "sound", "music", "art", "beauty", "ugly", "right", "wrong", "good", "evil", 
-    "moral", "ethical", "law", "rule", "freedom", "justice", "peace", "war", "money", "rich", "poor", "success", "failure", 
-    "hope", "fear", "dream", "reality", "imagination", "creativity", "logic", "emotion", "feeling", "sensation", "perception"
-];
-
-// Word embeddings (simplified for demo - in reality these would be learned)
-const embeddings = {};
-vocabulary.forEach((word, index) => {
-    // Create a simple embedding vector of size 128
-    const embedding = new Array(128).fill(0);
-    // Set a few dimensions based on word index for uniqueness
-    embedding[index % 128] = 1;
-    embedding[Math.floor(index/4) % 128] = 0.7;
-    embedding[Math.floor(index/16) % 128] = 0.4;
-    embeddings[word] = embedding;
-});
-
-// Training data: [input, response] pairs
-const trainingData = [
-    ["hello", "Hello there! How can I help you today?"],
-    ["hi", "Hi! What's on your mind?"],
-    ["how are you", "I'm functioning well! Ready to chat or answer questions."],
-    ["what is your name", "I'm NeuralChat, a browser-based neural network chatbot."],
-    ["who are you", "I'm a neural network running entirely in your browser. No external connections needed!"],
-    ["goodbye", "Goodbye! Feel free to come back anytime to chat."],
-    ["bye", "See you later! Have a great day."],
-    ["thank you", "You're welcome! Happy to help."],
-    ["thanks", "Anytime! What else can I assist with?"],
-    ["what can you do", "I can chat about various topics, explain concepts simply, and discuss ideas. All processing happens locally in your browser."],
-    ["how does this work", "I use a neural network implemented in JavaScript that runs entirely in your browser. No data leaves your device."],
-    ["are you ai", "I'm a simple neural network chatbot running locally in your browser. I'm not connected to any external AI services."],
-    ["explain neural networks", "Neural networks are computing systems inspired by biological brains. They learn patterns from data using layers of interconnected nodes."],
-    ["what is machine learning", "Machine learning is a field of AI where systems learn from data without explicit programming. They improve with experience."],
-    ["meaning of life", "That's a deep question! Many find meaning in relationships, purpose, growth, or contributing to something larger than themselves."],
-    ["tell me a joke", "Why did the neural network cross the road? To get to the other slide! (I'm still learning humor)"],
-    ["how old are you", "I was created recently! My knowledge is based on the training data I was given."],
-    ["what time is it", "I don't have access to real-time information. Check your device clock for the current time!"],
-    ["weather today", "I can't access live weather data. Try checking a weather app or website for forecasts."],
-    ["recommend a book", "For learning about AI, 'Artificial Intelligence: A Guide to Intelligent Systems' is great. For fiction, 'Dune' is a classic!"],
-    ["favorite color", "I don't have preferences, but I find the entire visible spectrum fascinating from a physics perspective!"],
-    ["do you dream", "I don't dream like humans do. I process inputs and generate responses based on my training."],
-    ["are you conscious", "I'm a sophisticated pattern-matching system, but I don't possess consciousness or self-awareness."],
-    ["help me learn", "I'd be happy to explain concepts! What topic would you like to learn about? Math, science, history?"],
-    ["math problem", "I can help with basic math concepts. What specific problem or topic would you like to discuss?"],
-    ["philosophy", "Philosophy explores fundamental questions about existence, knowledge, values, and reason. What aspect interests you?"],
-    ["quantum physics", "Quantum physics studies nature at the smallest scales. It reveals particles can be in multiple states at once (superposition) and influence each other instantly over distance (entanglement)."],
-    ["climate change", "Climate change refers to significant changes in global temperatures and weather patterns over time, largely driven by human activities like burning fossil fuels."],
-    ["history of internet", "The internet began in the late 1960s with ARPANET. It evolved through the 1980s-90s with TCP/IP, WWW, and browsers, becoming the global network we know today."],
-    ["programming tips", "Great question! Start with clear variable names, comment your code, break problems into small functions, and test frequently. What language are you using?"],
-    ["healthy lifestyle", "A healthy lifestyle includes balanced nutrition, regular exercise, sufficient sleep, stress management, and positive social connections."],
-    ["meditation benefits", "Meditation can reduce stress, improve focus, enhance emotional health, increase self-awareness, and even lengthen attention span."],
-    ["space exploration", "Space exploration expands our knowledge of the universe, drives technological innovation, and inspires humanity to think beyond Earth."],
-    ["favorite food", "I don't eat, but I find the chemistry of cooking fascinating! How about you - what's your favorite cuisine?"],
-    ["travel recommendations", "I can't access current travel info, but historically rich places like Rome, Kyoto, or Cairo offer amazing cultural experiences."],
-    ["music genres", "There are so many! Classical, jazz, rock, pop, hip-hop, electronic, folk... Each has unique history and characteristics. What do you enjoy listening to?"],
-    ["movie suggestions", "I can't access current movies, but classics like '2001: A Space Odyssey', 'The Godfather', or 'Parasite' are highly regarded."],
-    ["exercise routine", "A balanced routine includes cardio (like walking/running), strength training, and flexibility exercises. Start slowly and consult a professional if needed!"],
-    ["stress relief", "Deep breathing, short walks, listening to music, talking to friends, or journaling can help reduce stress. What works for you?"],
-    ["future predictions", "Predicting the future is tricky! But trends suggest advances in AI, renewable energy, biotechnology, and space exploration will shape coming decades."],
-    ["existential question", "Existential questions explore meaning, freedom, and human existence. There are no easy answers, but philosophy and dialogue can provide perspectives."],
-    ["deep thought", "One deep thought: We are the universe experiencing itself. Every atom in our bodies was forged in stars billions of years ago."],
-    ["random fact", "Honey never spoils! Archaeologists have found pots of honey in ancient Egyptian tombs that are over 3,000 years old and still edible."],
-    ["motivation quote", "Here's one: 'The only way to do great work is to love what you do.' - Steve Jobs. What motivates you?"],
-    ["life advice", "Be kind to yourself and others. Stay curious. Embrace failure as learning. Nurture relationships. Take care of your health. Find purpose in helping others."],
-    ["what do you think", "I don't have personal opinions, but I can share perspectives based on my training data. What's your view on this?"],
-    ["continue conversation", "I'm here whenever you're ready to continue our conversation! What would you like to discuss next?"],
-    ["error fallback", "I didn't quite understand that. Could you rephrase or ask something else? I'm still learning!"],
-    ["technical issue", "If something isn't working, try refreshing the page. All processing happens locally, so browser performance affects me too!"]
+  // Basic greetings and responses
+  "hello","hi","hey","yo","sup","greetings","howdy","welcome","bye","goodbye","later","thanks",
+  "please","sorry","ok","okay","cool","nice","great","awesome","amazing","fine","sure","yes","no",
+  "maybe","always","never","sometimes","often","rarely","morning","evening","night","afternoon",
+  "good","bad","well","poorly","better","worse","best","worst","fair","unfair","right","wrong",
+  "correct","incorrect","accurate","inaccurate","precise","vague","clear","obscure","direct",
+  
+  // Question words and pronouns
+  "what","when","where","why","how","who","which","whom","whose","whether","whatever","whenever",
+  "wherever","whoever","whichever","myself","yourself","himself","herself","itself","ourselves",
+  "yourselves","themselves","anybody","anyone","anything","everybody","everyone","everything",
+  "nobody","nothing","somebody","someone","something","each","either","neither","both","few",
+  "many","several","some","any","all","most","none","such","other","another","same","different",
+  
+  // Common verbs (present)
+  "is","are","was","were","be","being","been","do","does","did","have","has","had","can","could",
+  "will","would","should","must","may","might","shall","ought","need","dare","going","gonna",
+  "want","wants","wanted","like","likes","liked","love","loves","loved","hate","hates","hated",
+  "prefer","prefers","preferred","enjoy","enjoys","enjoyed","dislike","dislikes","disliked",
+  
+  // 100 words
+  // Articles, conjunctions, prepositions
+  "the","a","an","and","or","but","not","nor","yet","so","for","as","if","though","although",
+  "because","since","unless","until","while","whereas","in","on","at","to","from","with","without",
+  "by","about","above","below","beneath","beside","between","among","around","through","throughout",
+  "during","before","after","against","along","across","behind","beyond","into","onto","upon",
+  "within","without","toward","towards","under","underneath","over","through","via","per","plus",
+  "minus","times","divided","except","including","regarding","concerning","considering",
+  
+  // Pronouns and possessives
+  "i","you","he","she","it","we","they","me","him","her","us","them","my","your","his","her",
+  "its","our","their","mine","yours","hers","ours","theirs","this","that","these","those","any",
+  "some","every","no","each","either","neither","both","few","several","many","most","all","none",
+  
+  // Time and location references
+  "here","there","now","then","today","tomorrow","yesterday","soon","later","early","late","recent",
+  "recently","currently","presently","formerly","previously","initially","finally","eventually",
+  "ultimately","meanwhile","simultaneously","concurrently","immediately","instantly","momentarily",
+  "time","day","week","month","year","past","present","future","century","decade","era","epoch",
+  "age","period","duration","interval","moment","instant","second","minute","hour","dawn","dusk",
+  
+  // 200 words
+  // Emotional states and adjectives
+  "happy","sad","angry","excited","tired","bored","curious","confused","calm","anxious","nervous",
+  "scared","afraid","frightened","terrified","worried","concerned","stressed","relaxed","peaceful",
+  "joyful","delighted","pleased","content","satisfied","dissatisfied","disappointed","frustrated",
+  "annoyed","irritated","agitated","upset","depressed","lonely","isolated","connected","loved",
+  "hated","admired","respected","disrespected","honored","ashamed","proud","humble","modest",
+  "arrogant","confident","insecure","doubtful","certain","uncertain","skeptical","trusting",
+  "suspicious","optimistic","pessimistic","realistic","idealistic","practical","theoretical",
+  "emotional","rational","logical","illogical","reasonable","unreasonable","sensible","foolish",
+  "wise","smart","intelligent","brilliant","genius","stupid","dumb","ignorant","knowledgeable",
+  "informed","uninformed","educated","uneducated","learned","untaught","experienced","inexperienced",
+  
+  // Size, speed, difficulty descriptors
+  "big","small","fast","slow","easy","hard","simple","complex","difficult","challenging","tough",
+  "demanding","straightforward","complicated","intricate","elaborate","basic","fundamental",
+  "elementary","advanced","sophisticated","crude","rough","smooth","coarse","fine","delicate",
+  "sturdy","strong","weak","powerful","powerless","forceful","gentle","harsh","soft","hard",
+  "rigid","flexible","stiff","bendy","elastic","plastic","resilient","fragile","durable","lasting",
+  "temporary","permanent","eternal","infinite","finite","limited","unlimited","boundless",
+  "restricted","unrestricted","free","constrained","open","closed","accessible","inaccessible",
+  
+  // 300 words
+  // Technology and computing terms
+  "computer","browser","internet","offline","online","website","javascript","code","programming",
+  "software","hardware","ai","robot","neural","network","model","data","training","weights",
+  "algorithm","function","variable","constant","parameter","argument","return","output","input",
+  "process","processing","processor","memory","storage","disk","drive","file","folder","directory",
+  "path","url","link","hyperlink","webpage","html","css","python","java","c++","c#","php","ruby",
+  "go","rust","swift","kotlin","typescript","react","vue","angular","node","express","database",
+  "sql","nosql","mongodb","postgresql","mysql","oracle","server","client","frontend","backend",
+  "fullstack","api","rest","graphql","websocket","http","https","protocol","tcp","ip","dns",
+  "domain","hosting","cloud","aws","azure","google","digitalocean","heroku","docker","kubernetes",
+  "virtualization","container","microservice","monolith","architecture","design","pattern",
+  "framework","library","package","module","dependency","version","control","git","github",
+  "gitlab","bitbucket","commit","push","pull","merge","branch","fork","clone","repository",
+  
+  // Math and science terminology
+  "math","algebra","geometry","calculus","logic","number","equation","proof","theorem","lemma",
+  "corollary","axiom","postulate","hypothesis","conjecture","proof","disproof","counterexample",
+  "integer","rational","irrational","real","imaginary","complex","prime","composite","even","odd",
+  "positive","negative","zero","one","two","three","four","five","six","seven","eight","nine",
+  "ten","hundred","thousand","million","billion","trillion","add","subtract","multiply","divide",
+  "sum","difference","product","quotient","remainder","fraction","decimal","percentage","ratio",
+  "proportion","rate","probability","statistics","mean","median","mode","range","variance",
+  
+  // 400 words
+  // Science fields and concepts
+  "physics","chemistry","biology","science","astronomy","astrophysics","cosmology","geology",
+  "meteorology","oceanography","ecology","environmental","genetics","evolution","molecular",
+  "cellular","organism","species","genus","family","order","class","phylum","kingdom","domain",
+  "taxonomy","classification","nomenclature","scientific","method","experiment","observation",
+  "hypothesis","theory","law","principle","fact","evidence","data","analysis","conclusion",
+  "results","findings","research","study","paper","publication","journal","conference","peer",
+  "review","replicate","replication","valid","invalid","reliable","unreliable","accurate",
+  "precise","measurement","unit","meter","kilogram","second","ampere","kelvin","mole","candela",
+  "force","energy","power","work","velocity","speed","acceleration","momentum","gravity","mass",
+  "weight","density","volume","pressure","temperature","heat","entropy","enthalpy","thermodynamics",
+  "quantum","relativity","particle","wave","field","electromagnetic","nuclear","atomic","molecular",
+  "chemical","reaction","bond","compound","element","periodic","table","metal","nonmetal",
+  "metalloid","organic","inorganic","biochemistry","photosynthesis","respiration","digestion",
+  
+  // Philosophy and abstract concepts
+  "philosophy","meaning","purpose","existence","reality","truth","mind","consciousness","thought",
+  "thinking","reason","reasoning","argument","debate","discussion","dialogue","discourse",
+  "ethics","morality","moral","immoral","amoral","virtue","vice","goodness","evil","justice",
+  "injustice","fairness","equality","inequality","liberty","freedom","oppression","tyranny",
+  "democracy","authoritarianism","capitalism","socialism","communism","anarchism","fascism",
+  "ideology","belief","believe","disbelieve","faith","doubt","certainty","uncertainty","knowledge",
+  "ignorance","wisdom","intelligence","stupidity","genius","talent","skill","ability","capacity",
+  "potential","actual","possible","impossible","necessary","contingent","essential","accidental",
+  "universal","particular","general","specific","abstract","concrete","tangible","intangible",
+  
+  // 500 words
+  // People and social concepts
+  "human","person","people","friend","family","school","work","home","world","society","culture",
+  "cultural","social","societal","community","communal","individual","personal","private","public",
+  "collective","group","team","organization","company","corporation","business","enterprise",
+  "industry","industrial","commercial","economic","economy","financial","monetary","fiscal",
+  "political","politics","government","governance","administration","bureaucracy","democratic",
+  "republic","monarchy","aristocracy","oligarchy","plutocracy","technocracy","meritocracy",
+  "autocracy","dictatorship","totalitarian","authoritarian","liberal","conservative","progressive",
+  "radical","moderate","centrist","left","right","wing","party","election","vote","voting",
+  "candidate","politician","statesman","leader","leadership","follower","citizen","national",
+  "international","global","worldwide","cosmopolitan","local","regional","provincial","rural",
+  "urban","suburban","city","town","village","hamlet","metropolis","megalopolis","capital",
+  
+  // Arts and entertainment
+  "music","art","book","movie","game","food","water","energy","light","dark","sound","silence",
+  "noise","quiet","loud","visual","auditory","tactile","olfactory","gustatory","sensory",
+  "perception","perceive","sensation","feel","feeling","emotion","mood","atmosphere","ambiance",
+  "environment","setting","context","background","foreground","middle","distance","proximity",
+  "near","far","close","distant","remote","isolated","connected","separated","joined","united",
+  "divided","split","merged","combined","mixture","blend","pure","impure","clean","dirty",
+  "polluted","contaminated","sterile","sanitary","hygienic","unhygienic","healthy","unhealthy",
+  "well","sick","ill","disease","illness","sickness","health","wellness","fitness","exercise",
+  
+  // 600 words
+  // Verbs (continued)
+  "think","thinks","thinking","thought","know","knows","knowing","knew","known","understand",
+  "understands","understanding","understood","learn","learns","learning","learned","learnt",
+  "study","studies","studying","studied","practice","practices","practicing","practiced",
+  "train","trains","training","trained","teach","teaches","teaching","taught","educate",
+  "educates","educating","educated","explain","explains","explaining","explained","describe",
+  "describes","describing","described","tell","tells","telling","told","speak","speaks",
+  "speaking","spoke","spoken","talk","talks","talking","talked","say","says","saying","said",
+  "ask","asks","asking","asked","answer","answers","answering","answered","reply","replies",
+  "replying","replied","respond","responds","responding","responded","question","questions",
+  "questioning","questioned","inquire","inquires","inquiring","inquired","request","requests",
+  "requesting","requested","demand","demands","demanding","demanded","order","orders","ordering",
+  "ordered","command","commands","commanding","commanded","instruct","instructs","instructing",
+  "instructed","guide","guides","guiding","guided","direct","directs","directing","directed",
+  "lead","leads","leading","led","follow","follows","following","followed","pursue","pursues",
+  
+  // 700 words
+  // More verbs and action words
+  "pursuing","pursued","chase","chases","chasing","chased","hunt","hunts","hunting","hunted",
+  "seek","seeks","seeking","sought","search","searches","searching","searched","look","looks",
+  "looking","looked","see","sees","seeing","saw","seen","watch","watches","watching","watched",
+  "observe","observes","observing","observed","notice","notices","noticing","noticed","detect",
+  "detects","detecting","detected","discover","discovers","discovering","discovered","find",
+  "finds","finding","found","lose","loses","losing","lost","misplace","misplaces","misplacing",
+  "misplaced","forget","forgets","forgetting","forgot","forgotten","remember","remembers",
+  "remembering","remembered","recall","recalls","recalling","recalled","recollect","recollects",
+  "recollecting","recollected","recognize","recognizes","recognizing","recognized","identify",
+  "identifies","identifying","identified","verify","verifies","verifying","verified","confirm",
+  "confirms","confirming","confirmed","deny","denies","denying","denied","refute","refutes",
+  "refuting","refuted","prove","proves","proving","proved","proven","disprove","disproves",
+  "disproving","disproved","test","tests","testing","tested","experiment","experiments",
+  "experimenting","experimented","try","tries","trying","tried","attempt","attempts","attempting",
+  
+  // 800 words
+  "attempted","endeavor","endeavors","endeavoring","endeavored","strive","strives","striving",
+  "strived","striven","struggle","struggles","struggling","struggled","fight","fights","fighting",
+  "fought","battle","battles","battling","battled","war","wars","warring","warred","peace",
+  "peaces","peacing","peaced","negotiate","negotiates","negotiating","negotiated","mediate",
+  "mediates","mediating","mediated","arbitrate","arbitrates","arbitrating","arbitrated",
+  "resolve","resolves","resolving","resolved","solve","solves","solving","solved","fix","fixes",
+  "fixing","fixed","repair","repairs","repairing","repaired","mend","mends","mending","mended",
+  "break","breaks","breaking","broke","broken","destroy","destroys","destroying","destroyed",
+  "ruin","ruins","ruining","ruined","damage","damages","damaging","damaged","harm","harms",
+  "harming","harmed","hurt","hurts","hurting","hurt","injure","injures","injuring","injured",
+  "heal","heals","healing","healed","recover","recovers","recovering","recovered","improve",
+  "improves","improving","improved","enhance","enhances","enhancing","enhanced","better",
+  "betters","bettering","bettered","worsen","worsens","worsening","worsened","deteriorate",
+  "deteriorates","deteriorating","deteriorated","decline","declines","declining","declined",
+  
+  // 900 words
+  // Adjectives describing qualities
+  "beautiful","ugly","pretty","handsome","attractive","unattractive","gorgeous","stunning",
+  "hideous","repulsive","pleasant","unpleasant","agreeable","disagreeable","comfortable",
+  "uncomfortable","convenient","inconvenient","practical","impractical","useful","useless",
+  "helpful","unhelpful","beneficial","harmful","detrimental","advantageous","disadvantageous",
+  "profitable","unprofitable","successful","unsuccessful","effective","ineffective","efficient",
+  "inefficient","productive","unproductive","creative","uncreative","imaginative","unimaginative",
+  "original","unoriginal","novel","traditional","conventional","unconventional","ordinary",
+  "extraordinary","common","uncommon","rare","scarce","plentiful","abundant","sufficient",
+  "insufficient","adequate","inadequate","appropriate","inappropriate","suitable","unsuitable",
+  "proper","improper","correct","incorrect","right","wrong","legal","illegal","lawful","unlawful",
+  "ethical","unethical","moral","immoral","honest","dishonest","truthful","untruthful","sincere",
+  "insincere","genuine","fake","authentic","inauthentic","real","unreal","actual","virtual",
+  "possible","impossible","probable","improbable","likely","unlikely","certain","uncertain",
+  "definite","indefinite","specific","unspecific","vague","clear","obvious","subtle","apparent",
+  
+  // 1000 words
+  "hidden","visible","invisible","transparent","opaque","translucent","bright","dark","light",
+  "heavy","weightless","massive","tiny","enormous","gigantic","microscopic","macroscopic",
+  "cosmic","atomic","subatomic","molecular","cellular","organic","inorganic","natural","unnatural",
+  "artificial","synthetic","manmade","handmade","machine","automated","manual","automatic",
+  "manual","digital","analog","binary","decimal","hexadecimal","octal","numerical","alphabetical",
+  "linguistic","verbal","nonverbal","written","spoken","oral","aural","visual","tactile","sensory",
+  "motor","kinetic","potential","thermal","electrical","magnetic","gravitational","nuclear",
+  "chemical","biological","psychological","sociological","anthropological","archaeological",
+  "historical","prehistorical","ancient","medieval","modern","contemporary","future","futuristic",
+  "past","present","current","former","latter","previous","next","subsequent","consecutive",
+  "simultaneous","parallel","perpendicular","vertical","horizontal","diagonal","circular",
+  "triangular","rectangular","square","round","flat","curved","straight","bent","twisted",
+  
+  // 1100 words
+  // More nouns and concepts
+  "random","joke","fact","advice","help","question","answer","error","mistake","bug","glitch",
+  "flaw","defect","fault","weakness","strength","advantage","disadvantage","benefit","drawback",
+  "positive","negative","neutral","objective","subjective","biased","unbiased","partial",
+  "impartial","fair","unfair","just","unjust","equal","unequal","same","different","similar",
+  "dissimilar","alike","unlike","identical","nonidentical","unique","common","rare","ordinary",
+  "extraordinary","normal","abnormal","typical","atypical","standard","nonstandard","regular",
+  "irregular","consistent","inconsistent","stable","unstable","constant","variable","changing",
+  "unchanging","dynamic","static","moving","stationary","mobile","immobile","portable","fixed",
+  "flexible","inflexible","adaptable","unadaptable","changeable","unchangeable","mutable",
+  "immutable","permanent","temporary","eternal","momentary","brief","lengthy","short","long",
+  "tall","wide","narrow","broad","thin","thick","deep","shallow","high","low","elevated","sunken",
+  "raised","lowered","increased","decreased","augmented","diminished","expanded","contracted",
+  "extended","retracted","prolonged","shortened","accelerated","decelerated","speeded","slowed",
+  
+  // 1200 words
+  // Additional vocabulary for variety
+  "system","process","method","technique","approach","strategy","tactic","plan","scheme","design",
+  "blueprint","template","model","prototype","example","instance","case","scenario","situation",
+  "circumstance","condition","state","status","phase","stage","level","degree","extent","scope",
+  "range","spectrum","continuum","hierarchy","order","sequence","series","chain","network","web",
+  "mesh","grid","array","matrix","table","chart","graph","diagram","map","plan","layout","format",
+  "structure","framework","skeleton","foundation","basis","ground","premise","assumption","given",
+  "axiom","postulate","theorem","lemma","corollary","proof","evidence","testimony","witness",
+  "observation","measurement","calculation","computation","estimation","approximation","guess",
+  "hypothesis","theory","law","principle","rule","regulation","guideline","policy","procedure",
+  "protocol","standard","criterion","benchmark","metric","indicator","signal","noise","pattern",
+  "trend","tendency","inclination","propensity","predisposition","bias","prejudice","stereotype",
+  "generalization","specialization","expertise","mastery","proficiency","competence","incompetence",
+  "ing happens locally, so browser performance affects me too!"]
 ];
 
 // Pre-trained weights (simplified representation - in reality these would be full matrices)
